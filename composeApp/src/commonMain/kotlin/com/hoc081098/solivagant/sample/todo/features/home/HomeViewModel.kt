@@ -3,7 +3,9 @@ package com.hoc081098.solivagant.sample.todo.features.home
 import androidx.compose.runtime.Immutable
 import com.hoc081098.flowext.startWith
 import com.hoc081098.kmp.viewmodel.ViewModel
+import com.hoc081098.solivagant.navigation.NavEventNavigator
 import com.hoc081098.solivagant.sample.todo.domain.TodoItem
+import com.hoc081098.solivagant.sample.todo.features.detail.DetailScreenRoute
 import com.hoc081098.solivagant.sample.todo.features.home.domain.ObserveAllTodoItems
 import com.hoc081098.solivagant.sample.todo.features.home.domain.RemoveItemById
 import com.hoc081098.solivagant.sample.todo.features.home.domain.ToggleItemById
@@ -31,6 +33,7 @@ internal sealed interface HomeUiState {
 }
 
 internal class HomeViewModel(
+  private val navigator: NavEventNavigator,
   private val removeItemById: RemoveItemById,
   private val toggleItemById: ToggleItemById,
   observeAllTodoItems: ObserveAllTodoItems,
@@ -65,6 +68,9 @@ internal class HomeViewModel(
   internal fun remove(item: HomeUiState.TodoItem) {
     viewModelScope.launch { removeItemById(TodoItem.Id(item.id)) }
   }
+
+  internal fun navigateToDetail(item: HomeUiState.TodoItem) =
+    navigator.navigateTo(DetailScreenRoute(id = item.id))
 }
 
 private fun TodoItem.toTodoItemUi(): HomeUiState.TodoItem = HomeUiState.TodoItem(
