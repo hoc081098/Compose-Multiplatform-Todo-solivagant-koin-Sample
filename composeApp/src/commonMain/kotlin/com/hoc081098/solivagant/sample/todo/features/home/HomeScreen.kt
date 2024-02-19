@@ -1,12 +1,16 @@
 package com.hoc081098.solivagant.sample.todo.features.home
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -17,6 +21,8 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -28,6 +34,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.hoc081098.kmp.viewmodel.koin.compose.koinKmpViewModel
@@ -67,6 +74,7 @@ internal fun HomeScreen(
       modifier = Modifier.fillMaxSize()
         .padding(innerPadding)
         .consumeWindowInsets(innerPadding),
+      contentAlignment = Alignment.Center,
     ) {
       when (val s = uiState) {
         is HomeUiState.Data -> {
@@ -82,6 +90,7 @@ internal fun HomeScreen(
               contentType = { "TodoItem" },
             ) { item ->
               Item(
+                modifier = Modifier.fillMaxWidth(),
                 item = item,
                 onClicked = {},
                 onDoneChanged = {},
@@ -98,8 +107,35 @@ internal fun HomeScreen(
           )
         }
 
-        is HomeUiState.Error -> TODO()
-        HomeUiState.Loading -> TODO()
+        is HomeUiState.Error -> {
+          Column(
+            modifier = Modifier
+              .fillMaxWidth()
+              .align(Alignment.Center),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally,
+          ) {
+            Text(
+              text = s.message,
+              modifier = Modifier.fillMaxWidth(),
+              textAlign = TextAlign.Center,
+              maxLines = 1,
+              overflow = TextOverflow.Ellipsis,
+            )
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            ElevatedButton(onClick = {}) {
+              Text("Click to retry")
+            }
+          }
+        }
+
+        HomeUiState.Loading -> {
+          CircularProgressIndicator(
+            modifier = Modifier.align(Alignment.Center),
+          )
+        }
       }
     }
   }
@@ -111,9 +147,10 @@ private fun Item(
   onClicked: () -> Unit,
   onDoneChanged: (Boolean) -> Unit,
   onDeleteClicked: () -> Unit,
+  modifier: Modifier = Modifier,
 ) {
   Row(
-    modifier = Modifier.clickable(onClick = onClicked),
+    modifier = modifier.clickable(onClick = onClicked),
     verticalAlignment = Alignment.CenterVertically,
   ) {
     Spacer(modifier = Modifier.width(8.dp))

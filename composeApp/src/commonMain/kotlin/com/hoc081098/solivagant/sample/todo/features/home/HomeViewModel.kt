@@ -4,8 +4,10 @@ import androidx.compose.runtime.Immutable
 import com.hoc081098.kmp.viewmodel.ViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toPersistentList
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 
 @Immutable
 internal sealed interface HomeUiState {
@@ -22,7 +24,7 @@ internal sealed interface HomeUiState {
 }
 
 internal class HomeViewModel : ViewModel() {
-  internal val uiStateFlow: StateFlow<HomeUiState> = MutableStateFlow(
+  internal val uiStateFlow: MutableStateFlow<HomeUiState> = MutableStateFlow(
     HomeUiState.Data(
       items = List(100) {
         HomeUiState.TodoItem(
@@ -33,4 +35,10 @@ internal class HomeViewModel : ViewModel() {
       }.toPersistentList(),
     ),
   )
+
+  init {
+    viewModelScope.launch {
+      uiStateFlow.value = HomeUiState.Error("Some error occurred!")
+    }
+  }
 }
