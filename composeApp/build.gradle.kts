@@ -47,17 +47,43 @@ kotlin {
     androidMain.dependencies {
       implementation(libs.compose.ui.tooling.preview)
       implementation(libs.androidx.activity.compose)
+
+      // Koin
+      implementation(libs.koin.android)
+      implementation(libs.koin.androidx.compose)
+
+      // Coroutines
+      implementation(libs.kotlinx.coroutines.android)
     }
     commonMain.dependencies {
       implementation(compose.runtime)
       implementation(compose.foundation)
       implementation(compose.material)
       implementation(compose.ui)
-      @OptIn(ExperimentalComposeLibrary::class)
       implementation(compose.components.resources)
+
+      // KMP View Model & Solivagant navigation
+      implementation(libs.kmp.viewmodel)
+      implementation(libs.kmp.viewmodel.savedstate)
+      implementation(libs.kmp.viewmodel.compose)
+      implementation(libs.kmp.viewmodel.koin.compose)
+      implementation(libs.solivagant.navigation)
+
+      // Koin
+      implementation(libs.koin.core)
+      implementation(libs.koin.compose)
+
+      // Coroutines
+      implementation(libs.kotlinx.coroutines.core)
+
+      // Immutable collections
+      implementation(libs.kotlinx.collections.immutable)
     }
     desktopMain.dependencies {
       implementation(compose.desktop.currentOs)
+
+      // Coroutines
+      implementation(libs.kotlinx.coroutines.swing)
     }
   }
 }

@@ -15,6 +15,15 @@ compose-plugin = "1.6.0-rc02"
 junit = "4.13.2"
 kotlin = "1.9.22"
 
+kmp-viewmodel = "0.7.0"
+solivagant = "0.1.0"
+
+koin-core = "3.5.3"
+koin-compose = "1.1.2"
+
+kotlinx-collections-immutable = "0.3.7"
+kotlinx-coroutines = "1.8.0"
+
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
@@ -28,6 +37,22 @@ androidx-constraintlayout = { group = "androidx.constraintlayout", name = "const
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
 compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
+
+kmp-viewmodel = { module = "io.github.hoc081098:kmp-viewmodel", version.ref = "kmp-viewmodel" }
+kmp-viewmodel-savedstate = { module = "io.github.hoc081098:kmp-viewmodel-savedstate", version.ref = "kmp-viewmodel" }
+kmp-viewmodel-compose = { module = "io.github.hoc081098:kmp-viewmodel-compose", version.ref = "kmp-viewmodel" }
+kmp-viewmodel-koin-compose = { module = "io.github.hoc081098:kmp-viewmodel-koin-compose", version.ref = "kmp-viewmodel" }
+solivagant-navigation = { module = "io.github.hoc081098:solivagant-navigation", version.ref = "solivagant" }
+
+koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin-core" }
+koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin-core" }
+koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin-core" }
+koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin-compose" }
+
+kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinx-collections-immutable" }
+kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
