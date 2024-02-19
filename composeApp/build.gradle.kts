@@ -63,7 +63,7 @@ kotlin {
 }
 
 android {
-  namespace = "com.hoc081098.solivagant.sample"
+  namespace = "com.hoc081098.solivagant.sample.todo"
   compileSdk = libs.versions.android.compileSdk.get().toInt()
 
   sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
@@ -71,7 +71,7 @@ android {
   sourceSets["main"].resources.srcDirs("src/commonMain/resources")
 
   defaultConfig {
-    applicationId = "com.hoc081098.solivagant.sample"
+    applicationId = "com.hoc081098.solivagant.sample.todo"
     minSdk = libs.versions.android.minSdk.get().toInt()
     targetSdk = libs.versions.android.targetSdk.get().toInt()
     versionCode = 1
@@ -102,7 +102,7 @@ compose.desktop {
 
     nativeDistributions {
       targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-      packageName = "com.hoc081098.solivagant.sample"
+      packageName = "com.hoc081098.solivagant.sample.todo"
       packageVersion = "1.0.0"
     }
   }

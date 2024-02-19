@@ -1,6 +1,5 @@
-package com.hoc081098.solivagant.sample
+package com.hoc081098.solivagant.sample.todo
 
-import App
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
