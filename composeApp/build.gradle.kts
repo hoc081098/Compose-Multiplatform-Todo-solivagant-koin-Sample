@@ -72,8 +72,9 @@ kotlin {
       implementation(libs.koin.core)
       implementation(libs.koin.compose)
 
-      // Coroutines
+      // Coroutines & FlowExt
       implementation(libs.kotlinx.coroutines.core)
+      implementation(libs.flow.ext)
 
       // Immutable collections
       implementation(libs.kotlinx.collections.immutable)

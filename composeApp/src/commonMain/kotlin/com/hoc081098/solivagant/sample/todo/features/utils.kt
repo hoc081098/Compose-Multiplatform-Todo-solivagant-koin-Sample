@@ -22,16 +22,16 @@ internal expect fun rememberScrollbarAdapter(scrollState: LazyListState): Scroll
 
 @Composable
 internal expect fun VerticalScrollbar(
-    modifier: Modifier,
-    adapter: ScrollbarAdapter
+  modifier: Modifier,
+  adapter: ScrollbarAdapter,
 )
 
 internal fun Modifier.onKeyUp(key: Key, action: () -> Unit): Modifier =
-    onKeyEvent { event ->
-        if (event.type == KeyEventType.KeyUp && event.key == key) {
-            action()
-            true
-        } else {
-            false
-        }
+  onKeyEvent { event ->
+    if (event.type == KeyEventType.KeyUp && event.key == key) {
+      action()
+      true
+    } else {
+      false
     }
+  }

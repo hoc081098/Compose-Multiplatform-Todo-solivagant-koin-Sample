@@ -77,7 +77,7 @@ internal fun HomeScreen(
       contentAlignment = Alignment.Center,
     ) {
       when (val s = uiState) {
-        is HomeUiState.Data -> {
+        is HomeUiState.Content -> {
           val listState = rememberLazyListState()
 
           LazyColumn(
@@ -93,8 +93,8 @@ internal fun HomeScreen(
                 modifier = Modifier.fillMaxWidth(),
                 item = item,
                 onClicked = {},
-                onDoneChanged = {},
-                onDeleteClicked = {},
+                onToggle = viewModel::toggle,
+                onRemove = viewModel::remove,
               )
             }
           }
@@ -144,20 +144,20 @@ internal fun HomeScreen(
 @Composable
 private fun Item(
   item: TodoItem,
-  onClicked: () -> Unit,
-  onDoneChanged: (Boolean) -> Unit,
-  onDeleteClicked: () -> Unit,
+  onClicked: (TodoItem) -> Unit,
+  onToggle: (TodoItem) -> Unit,
+  onRemove: (TodoItem) -> Unit,
   modifier: Modifier = Modifier,
 ) {
   Row(
-    modifier = modifier.clickable(onClick = onClicked),
+    modifier = modifier.clickable(onClick = { onClicked(item) }),
     verticalAlignment = Alignment.CenterVertically,
   ) {
     Spacer(modifier = Modifier.width(8.dp))
 
     Checkbox(
       checked = item.isDone,
-      onCheckedChange = onDoneChanged,
+      onCheckedChange = { onToggle(item) },
     )
 
     Spacer(modifier = Modifier.width(8.dp))
@@ -171,7 +171,7 @@ private fun Item(
 
     Spacer(modifier = Modifier.width(8.dp))
 
-    IconButton(onClick = onDeleteClicked) {
+    IconButton(onClick = { onRemove(item) }) {
       Icon(
         imageVector = Icons.Default.Delete,
         contentDescription = null,

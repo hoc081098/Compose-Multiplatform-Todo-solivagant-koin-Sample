@@ -6,7 +6,7 @@ import com.hoc081098.solivagant.navigation.ScreenDestination
 import kotlin.jvm.JvmField
 
 @Parcelize
-data object HomeScreenRoute: NavRoot
+data object HomeScreenRoute : NavRoot
 
 @JvmField
 val HomeScreenDestination = ScreenDestination<HomeScreenRoute> { _, modifier ->
