@@ -15,6 +15,8 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
@@ -40,6 +42,8 @@ internal class HomeViewModel(
 ) : ViewModel() {
   internal val uiStateFlow: StateFlow<HomeUiState> =
     observeAllTodoItems()
+      .onStart { println("${this@HomeViewModel}: observeAllTodoItems start...") }
+      .onCompletion { println("${this@HomeViewModel}: observeAllTodoItems completed $it") }
       .map<_, HomeUiState> { items ->
         HomeUiState.Content(
           items = items

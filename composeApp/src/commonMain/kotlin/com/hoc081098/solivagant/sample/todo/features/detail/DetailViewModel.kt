@@ -13,6 +13,8 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
@@ -40,6 +42,8 @@ internal class DetailViewModel(
 
   internal val uiStateFlow: StateFlow<DetailUiState> =
     observeTodoItemById(TodoItem.Id(route.id))
+      .onStart { println("${this@DetailViewModel}: observeTodoItemById start...") }
+      .onCompletion { println("${this@DetailViewModel}: observeTodoItemById completed $it") }
       .map<_, DetailUiState> { item ->
         DetailUiState.Content(
           item = item?.toTodoItemUi(),

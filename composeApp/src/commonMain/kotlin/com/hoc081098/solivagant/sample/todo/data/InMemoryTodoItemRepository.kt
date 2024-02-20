@@ -15,6 +15,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.flow.updateAndGet
 import kotlinx.coroutines.internal.SynchronizedObject
 import kotlinx.coroutines.internal.synchronized
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 
 @OptIn(InternalCoroutinesApi::class)
 internal class InMemoryTodoItemRepository : TodoItemRepository {
@@ -23,6 +25,8 @@ internal class InMemoryTodoItemRepository : TodoItemRepository {
   private fun generateId() = synchronized(idLock) { currentId++ }
     .toString()
     .let(TodoItem::Id)
+
+  private val mutatorMutex = Mutex()
 
   private suspend inline fun fakeTimerDelay() = delay(200.milliseconds)
 
@@ -58,7 +62,7 @@ internal class InMemoryTodoItemRepository : TodoItemRepository {
     timer(Unit, 300.milliseconds).ignoreElements() +
         itemsStateFlow.select { items -> items.find { it.id == id } }
 
-  override suspend fun add(text: TodoItem.Text, isDone: Boolean): Result<Unit> {
+  override suspend fun add(text: TodoItem.Text, isDone: Boolean) = mutatorMutex.withLock {
     fakeTimerDelay()
     itemsStateFlow.update {
       it + TodoItem(
@@ -68,17 +72,17 @@ internal class InMemoryTodoItemRepository : TodoItemRepository {
       )
     }
 
-    return Result.success(Unit)
+    Result.success(Unit)
   }
 
-  override suspend fun removeById(id: TodoItem.Id): Result<Unit> {
+  override suspend fun removeById(id: TodoItem.Id) = mutatorMutex.withLock {
     fakeTimerDelay()
     itemsStateFlow.update { items -> items.filterNot { it.id == id } }
 
-    return Result.success(Unit)
+    Result.success(Unit)
   }
 
-  override suspend fun toggleById(id: TodoItem.Id): Result<TodoItem> {
+  override suspend fun toggleById(id: TodoItem.Id) = mutatorMutex.withLock {
     fakeTimerDelay()
     val updated = itemsStateFlow.updateAndGet { items ->
       items.map {
@@ -87,10 +91,10 @@ internal class InMemoryTodoItemRepository : TodoItemRepository {
       }
     }
 
-    return runCatching { updated.first { it.id == id } }
+    runCatching { updated.first { it.id == id } }
   }
 
-  override suspend fun update(item: TodoItem): Result<TodoItem> {
+  override suspend fun update(item: TodoItem) = mutatorMutex.withLock {
     fakeTimerDelay()
     itemsStateFlow.update { items ->
       items.map {
@@ -99,6 +103,6 @@ internal class InMemoryTodoItemRepository : TodoItemRepository {
       }
     }
 
-    return Result.success(item)
+    Result.success(item)
   }
 }
