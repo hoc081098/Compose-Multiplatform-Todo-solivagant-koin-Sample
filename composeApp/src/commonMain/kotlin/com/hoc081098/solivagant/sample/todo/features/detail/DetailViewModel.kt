@@ -9,6 +9,7 @@ import com.hoc081098.solivagant.sample.todo.domain.TodoItem
 import com.hoc081098.solivagant.sample.todo.features.detail.DetailUiState.TodoItemUi
 import com.hoc081098.solivagant.sample.todo.features.detail.domain.ObserveTodoItemById
 import com.hoc081098.solivagant.sample.todo.features.detail.domain.ToggleItemById
+import com.hoc081098.solivagant.sample.todo.features.edit.EditScreenRoute
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
@@ -63,6 +64,8 @@ internal class DetailViewModel(
       )
 
   internal fun navigateBack() = navigator.navigateBack()
+
+  internal fun navigateToEdit() = navigator.navigateTo(EditScreenRoute(route.id))
 
   internal fun toggle(item: TodoItemUi) {
     viewModelScope.launch { toggleItemById(TodoItem.Id(item.id)) }

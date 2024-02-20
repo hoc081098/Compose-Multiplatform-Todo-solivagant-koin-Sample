@@ -42,6 +42,7 @@ import com.hoc081098.solivagant.sample.todo.features.detail.DetailUiState.TodoIt
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun DetailScreen(
+  route: DetailScreenRoute,
   modifier: Modifier = Modifier,
   viewModel: DetailViewModel = koinKmpViewModel(),
 ) {
@@ -51,7 +52,7 @@ internal fun DetailScreen(
     modifier = modifier,
     topBar = {
       CenterAlignedTopAppBar(
-        title = { Text(text = "Detail") },
+        title = { Text(text = "Detail #${route.id}") },
         navigationIcon = {
           IconButton(onClick = viewModel::navigateBack) {
             Icon(
@@ -66,7 +67,7 @@ internal fun DetailScreen(
       uiState
         .takeIf { it is DetailUiState.Content && it.item != null }
         ?.let {
-          FloatingActionButton(onClick = {}) {
+          FloatingActionButton(onClick = viewModel::navigateToEdit) {
             Icon(
               imageVector = Icons.Default.Edit,
               contentDescription = null,
@@ -84,8 +85,8 @@ internal fun DetailScreen(
       when (val s = uiState) {
         is DetailUiState.Content -> {
           ItemContent(
+            modifier = Modifier.fillMaxSize(),
             item = s.item,
-            modifier = Modifier.fillMaxWidth(),
             onToggle = viewModel::toggle,
           )
         }

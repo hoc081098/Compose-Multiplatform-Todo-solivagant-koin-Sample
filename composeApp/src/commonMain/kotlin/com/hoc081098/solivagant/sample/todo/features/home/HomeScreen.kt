@@ -43,10 +43,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.hoc081098.kmp.viewmodel.koin.compose.koinKmpViewModel
 import com.hoc081098.solivagant.lifecycle.compose.collectAsStateWithLifecycle
-import com.hoc081098.solivagant.sample.todo.features.MARGIN_SCROLLBAR
-import com.hoc081098.solivagant.sample.todo.features.VerticalScrollbar
+import com.hoc081098.solivagant.sample.todo.features.utils.MARGIN_SCROLLBAR
+import com.hoc081098.solivagant.sample.todo.features.utils.VerticalScrollbar
 import com.hoc081098.solivagant.sample.todo.features.home.HomeUiState.TodoItemUi
-import com.hoc081098.solivagant.sample.todo.features.rememberScrollbarAdapter
+import com.hoc081098.solivagant.sample.todo.features.utils.rememberScrollbarAdapter
 import compose_multiplatform_todo_solivagant_sample.composeapp.generated.resources.Res
 import compose_multiplatform_todo_solivagant_sample.composeapp.generated.resources.compose_multiplatform
 import org.jetbrains.compose.resources.ExperimentalResourceApi

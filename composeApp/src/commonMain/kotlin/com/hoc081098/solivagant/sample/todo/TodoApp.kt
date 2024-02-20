@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import com.hoc081098.solivagant.navigation.NavDestination
 import com.hoc081098.solivagant.navigation.NavHost
 import com.hoc081098.solivagant.sample.todo.features.detail.DetailScreenDestination
+import com.hoc081098.solivagant.sample.todo.features.edit.EditScreenDestination
 import com.hoc081098.solivagant.sample.todo.features.home.HomeScreenDestination
 import com.hoc081098.solivagant.sample.todo.features.home.HomeScreenRoute
 import kotlinx.collections.immutable.ImmutableSet
@@ -20,6 +21,7 @@ import org.koin.compose.koinInject
 private val AllDestinations: ImmutableSet<NavDestination> = persistentSetOf(
   HomeScreenDestination,
   DetailScreenDestination,
+  EditScreenDestination,
 )
 
 @Composable

@@ -1,4 +1,4 @@
-package com.hoc081098.solivagant.sample.todo.features
+package com.hoc081098.solivagant.sample.todo.features.utils
 
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
