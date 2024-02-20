@@ -60,7 +60,6 @@ internal fun HomeScreen(
 ) {
   val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
 
-
   Scaffold(
     modifier = modifier,
     topBar = {
