@@ -1,5 +1,7 @@
 package com.hoc081098.solivagant.sample.todo.features.home
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -45,14 +47,19 @@ import com.hoc081098.solivagant.sample.todo.features.MARGIN_SCROLLBAR
 import com.hoc081098.solivagant.sample.todo.features.VerticalScrollbar
 import com.hoc081098.solivagant.sample.todo.features.home.HomeUiState.TodoItemUi
 import com.hoc081098.solivagant.sample.todo.features.rememberScrollbarAdapter
+import compose_multiplatform_todo_solivagant_sample.composeapp.generated.resources.Res
+import compose_multiplatform_todo_solivagant_sample.composeapp.generated.resources.compose_multiplatform
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.painterResource
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalResourceApi::class)
 @Composable
 internal fun HomeScreen(
   modifier: Modifier = Modifier,
   viewModel: HomeViewModel = koinKmpViewModel(),
 ) {
   val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
+
 
   Scaffold(
     modifier = modifier,
@@ -82,8 +89,19 @@ internal fun HomeScreen(
         is HomeUiState.Content -> {
           val listState = rememberLazyListState()
 
-          LazyColumn(
+          Image(
             modifier = Modifier.matchParentSize(),
+            painter = painterResource(Res.drawable.compose_multiplatform),
+            contentDescription = null,
+          )
+
+          LazyColumn(
+            modifier = Modifier.matchParentSize()
+              .background(
+                color = MaterialTheme.colorScheme
+                  .background
+                  .copy(alpha = 0.3f),
+              ),
             state = listState,
           ) {
             items(

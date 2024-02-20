@@ -25,7 +25,6 @@ internal class InMemoryTodoItemRepository : TodoItemRepository {
     .let(TodoItem::Id)
 
   private suspend inline fun fakeTimerDelay() = delay(200.milliseconds)
-  private val fakeTimerFlow = timer(Unit, 1.5.seconds).ignoreElements()
 
   private val itemsStateFlow = MutableStateFlow(
     listOf(
@@ -53,10 +52,10 @@ internal class InMemoryTodoItemRepository : TodoItemRepository {
     ),
   )
 
-  override fun observeAll() = fakeTimerFlow + itemsStateFlow
+  override fun observeAll() = timer(Unit, 1.5.seconds).ignoreElements() + itemsStateFlow
 
   override fun observeById(id: TodoItem.Id) =
-    fakeTimerFlow +
+    timer(Unit, 300.milliseconds).ignoreElements() +
         itemsStateFlow.select { items -> items.find { it.id == id } }
 
   override suspend fun add(text: TodoItem.Text, isDone: Boolean): Result<Unit> {
