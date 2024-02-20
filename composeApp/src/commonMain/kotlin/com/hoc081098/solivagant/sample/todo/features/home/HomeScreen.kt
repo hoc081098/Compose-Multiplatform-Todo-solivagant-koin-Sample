@@ -102,6 +102,7 @@ internal fun HomeScreen(
                   .copy(alpha = 0.3f),
               ),
             state = listState,
+            verticalArrangement = Arrangement.spacedBy(8.dp),
           ) {
             items(
               items = s.items,
@@ -184,7 +185,7 @@ private fun Item(
     Text(
       text = AnnotatedString(item.text),
       modifier = Modifier.weight(1f),
-      maxLines = 1,
+      maxLines = 2,
       overflow = TextOverflow.Ellipsis,
       style = MaterialTheme.typography.bodyLarge,
       textDecoration = if (item.isDone) TextDecoration.LineThrough else null,

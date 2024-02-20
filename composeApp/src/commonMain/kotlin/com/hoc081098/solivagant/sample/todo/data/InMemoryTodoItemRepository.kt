@@ -44,14 +44,14 @@ internal class InMemoryTodoItemRepository : TodoItemRepository {
         text = TodoItem.Text
           .of(value = "solivagant: Pragmatic, type safety navigation for Compose Multiplatform")
           .getOrThrow(),
-        isDone = true,
+        isDone = false,
       ),
       TodoItem(
         id = generateId(),
         text = TodoItem.Text
           .of(value = "solivagant: ViewModel, SavedStateHandle, Lifecycle, Multi-Backstacks, Transitions, Back-press handling, and more...")
           .getOrThrow(),
-        isDone = true,
+        isDone = false,
       ),
     ),
   )
