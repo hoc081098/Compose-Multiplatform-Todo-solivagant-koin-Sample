@@ -64,7 +64,7 @@ internal class InMemoryTodoItemRepository : TodoItemRepository {
 
   override suspend fun add(text: TodoItem.Text, isDone: Boolean) = mutatorMutex.withLock {
     fakeTimerDelay()
-    itemsStateFlow.update {
+    val updated = itemsStateFlow.updateAndGet {
       it + TodoItem(
         id = generateId(),
         text = text,
@@ -72,7 +72,7 @@ internal class InMemoryTodoItemRepository : TodoItemRepository {
       )
     }
 
-    Result.success(Unit)
+    Result.success(updated.last())
   }
 
   override suspend fun removeById(id: TodoItem.Id) = mutatorMutex.withLock {

@@ -8,6 +8,7 @@ import androidx.compose.runtime.Stable
 import androidx.compose.ui.Modifier
 import com.hoc081098.solivagant.navigation.NavDestination
 import com.hoc081098.solivagant.navigation.NavHost
+import com.hoc081098.solivagant.sample.todo.features.add.AddScreenDestination
 import com.hoc081098.solivagant.sample.todo.features.detail.DetailScreenDestination
 import com.hoc081098.solivagant.sample.todo.features.edit.EditScreenDestination
 import com.hoc081098.solivagant.sample.todo.features.home.HomeScreenDestination
@@ -22,6 +23,7 @@ private val AllDestinations: ImmutableSet<NavDestination> = persistentSetOf(
   HomeScreenDestination,
   DetailScreenDestination,
   EditScreenDestination,
+  AddScreenDestination,
 )
 
 @Composable

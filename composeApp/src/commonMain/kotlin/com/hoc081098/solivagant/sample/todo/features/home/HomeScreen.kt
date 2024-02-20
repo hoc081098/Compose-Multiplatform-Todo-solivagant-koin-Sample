@@ -69,7 +69,7 @@ internal fun HomeScreen(
     },
     floatingActionButton = {
       FloatingActionButton(
-        onClick = {},
+        onClick = viewModel::navigateToAdd,
       ) {
         Icon(
           imageVector = Icons.Default.Add,

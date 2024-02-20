@@ -10,7 +10,7 @@ interface TodoItemRepository {
   suspend fun add(
     text: TodoItem.Text,
     isDone: Boolean,
-  ): Result<Unit>
+  ): Result<TodoItem>
 
   suspend fun removeById(id: TodoItem.Id): Result<Unit>
 

@@ -4,6 +4,7 @@ import androidx.compose.runtime.Immutable
 import com.hoc081098.kmp.viewmodel.ViewModel
 import com.hoc081098.solivagant.navigation.NavEventNavigator
 import com.hoc081098.solivagant.sample.todo.domain.TodoItem
+import com.hoc081098.solivagant.sample.todo.features.add.AddScreenRoute
 import com.hoc081098.solivagant.sample.todo.features.detail.DetailScreenRoute
 import com.hoc081098.solivagant.sample.todo.features.home.HomeUiState.TodoItemUi
 import com.hoc081098.solivagant.sample.todo.features.home.domain.ObserveAllTodoItems
@@ -74,6 +75,9 @@ internal class HomeViewModel(
 
   internal fun navigateToDetail(item: TodoItemUi) =
     navigator.navigateTo(DetailScreenRoute(id = item.id))
+
+  internal fun navigateToAdd() =
+    navigator.navigateTo(AddScreenRoute)
 }
 
 private fun TodoItem.toTodoItemUi(): TodoItemUi = TodoItemUi(

@@ -1,10 +1,8 @@
-package com.hoc081098.solivagant.sample.todo.features.edit
+package com.hoc081098.solivagant.sample.todo.features.add
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,13 +14,10 @@ import androidx.compose.material.icons.filled.Done
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Checkbox
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -34,8 +29,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.hoc081098.kmp.viewmodel.koin.compose.koinKmpViewModel
 import com.hoc081098.solivagant.lifecycle.compose.LifecycleResumeEffect
@@ -46,10 +39,9 @@ import kotlinx.coroutines.flow.onEach
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun EditScreen(
-  route: EditScreenRoute,
+internal fun AddScreen(
   modifier: Modifier = Modifier,
-  viewModel: EditViewModel = koinKmpViewModel(),
+  viewModel: AddViewModel = koinKmpViewModel(),
 ) {
   val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle(
     context = viewModel.viewModelScope.coroutineContext,
@@ -58,7 +50,7 @@ internal fun EditScreen(
   var showConfirmBackDialog by rememberSaveable { mutableStateOf(false) }
   viewModel.singleEventFlow.CollectWithLifecycleEffect { event ->
     when (event) {
-      EditSingleEvent.ConfirmBack -> {
+      AddSingleEvent.ConfirmBack -> {
         showConfirmBackDialog = true
       }
     }
@@ -77,7 +69,7 @@ internal fun EditScreen(
     modifier = modifier,
     topBar = {
       CenterAlignedTopAppBar(
-        title = { Text(text = "Edit #${route.id}") },
+        title = { Text(text = "Add new todo") },
         navigationIcon = {
           IconButton(onClick = viewModel::confirmBack) {
             Icon(
@@ -89,7 +81,7 @@ internal fun EditScreen(
       )
     },
     floatingActionButton = {
-      if (uiState is EditUiState.Content) {
+      if (uiState is AddUiState.Content) {
         FloatingActionButton(onClick = viewModel::save) {
           Icon(
             imageVector = Icons.Default.Done,
@@ -106,49 +98,8 @@ internal fun EditScreen(
       contentAlignment = Alignment.Center,
     ) {
       when (val s = uiState) {
-        EditUiState.NotFound -> {
-          Text(
-            modifier = Modifier.fillMaxWidth(),
-            text = "Not found",
-            textAlign = TextAlign.Center,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-            style = MaterialTheme.typography.titleMedium,
-          )
-        }
-
-        is EditUiState.Error -> {
-          Column(
-            modifier = Modifier
-              .fillMaxWidth()
-              .align(Alignment.Center),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally,
-          ) {
-            Text(
-              text = s.message,
-              modifier = Modifier.fillMaxWidth(),
-              textAlign = TextAlign.Center,
-              maxLines = 1,
-              overflow = TextOverflow.Ellipsis,
-            )
-
-            Spacer(modifier = Modifier.height(12.dp))
-
-            ElevatedButton(onClick = {}) {
-              Text("Click to retry")
-            }
-          }
-        }
-
-        EditUiState.Loading -> {
-          CircularProgressIndicator(
-            modifier = Modifier.align(Alignment.Center),
-          )
-        }
-
-        is EditUiState.Content -> {
-          EditContent(
+        is AddUiState.Content -> {
+          AddContent(
             modifier = Modifier.fillMaxSize(),
             content = s,
             onTextChange = viewModel::onTextChange,
@@ -156,7 +107,7 @@ internal fun EditScreen(
           )
         }
 
-        EditUiState.Complete -> Unit
+        AddUiState.Complete -> Unit
       }
     }
   }
@@ -190,8 +141,8 @@ internal fun EditScreen(
 }
 
 @Composable
-private fun EditContent(
-  content: EditUiState.Content,
+private fun AddContent(
+  content: AddUiState.Content,
   onTextChange: (String) -> Unit,
   onDoneChange: (Boolean) -> Unit,
   modifier: Modifier = Modifier,

@@ -12,6 +12,7 @@ import com.hoc081098.solivagant.sample.todo.features.utils.HasSingleEventFlow
 import com.hoc081098.solivagant.sample.todo.features.utils.SingleEventChannel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -52,7 +53,7 @@ internal class EditViewModel(
   private val route = savedStateHandle.requireRoute<EditScreenRoute>()
   private val _uiStateFlow = MutableStateFlow<EditUiState>(EditUiState.Loading)
 
-  internal val uiStateFlow: StateFlow<EditUiState> = _uiStateFlow
+  internal val uiStateFlow: StateFlow<EditUiState> = _uiStateFlow.asStateFlow()
   internal val backPressesFlow = navigator.backPresses()
 
   init {
@@ -106,7 +107,7 @@ internal class EditViewModel(
     }
   }
 
-  internal fun onToggle(isDone: Boolean) {
+  internal fun onDoneChange(isDone: Boolean) {
     _uiStateFlow.update {
       when (it) {
         is EditUiState.Content -> it.copy(isDone = isDone)
