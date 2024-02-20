@@ -9,15 +9,12 @@ import androidx.compose.ui.tooling.preview.Preview
 class MainActivity : ComponentActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-
-    setContent {
-      TodoApp()
-    }
+    setContent { TodoApp() }
   }
 }
 
 @Preview
 @Composable
-fun AppAndroidPreview() {
+private fun AppAndroidPreview() {
   TodoApp()
 }
