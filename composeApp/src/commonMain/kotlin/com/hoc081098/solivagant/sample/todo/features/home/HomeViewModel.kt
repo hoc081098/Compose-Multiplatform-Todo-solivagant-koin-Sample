@@ -6,6 +6,7 @@ import com.hoc081098.kmp.viewmodel.ViewModel
 import com.hoc081098.solivagant.navigation.NavEventNavigator
 import com.hoc081098.solivagant.sample.todo.domain.TodoItem
 import com.hoc081098.solivagant.sample.todo.features.detail.DetailScreenRoute
+import com.hoc081098.solivagant.sample.todo.features.home.HomeUiState.TodoItemUi
 import com.hoc081098.solivagant.sample.todo.features.home.domain.ObserveAllTodoItems
 import com.hoc081098.solivagant.sample.todo.features.home.domain.RemoveItemById
 import com.hoc081098.solivagant.sample.todo.features.home.domain.ToggleItemById
@@ -22,10 +23,10 @@ import kotlinx.coroutines.launch
 internal sealed interface HomeUiState {
   data object Loading : HomeUiState
   data class Error(val message: String) : HomeUiState
-  data class Content(val items: ImmutableList<TodoItem>) : HomeUiState
+  data class Content(val items: ImmutableList<TodoItemUi>) : HomeUiState
 
   @Immutable
-  data class TodoItem(
+  data class TodoItemUi(
     val id: String,
     val text: String,
     val isDone: Boolean,
@@ -56,24 +57,24 @@ internal class HomeViewModel(
         )
       }
       .stateIn(
-        viewModelScope,
-        SharingStarted.WhileSubscribed(5_000L),
-        HomeUiState.Loading,
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000L),
+        initialValue = HomeUiState.Loading,
       )
 
-  internal fun toggle(item: HomeUiState.TodoItem) {
+  internal fun toggle(item: TodoItemUi) {
     viewModelScope.launch { toggleItemById(TodoItem.Id(item.id)) }
   }
 
-  internal fun remove(item: HomeUiState.TodoItem) {
+  internal fun remove(item: TodoItemUi) {
     viewModelScope.launch { removeItemById(TodoItem.Id(item.id)) }
   }
 
-  internal fun navigateToDetail(item: HomeUiState.TodoItem) =
+  internal fun navigateToDetail(item: TodoItemUi) =
     navigator.navigateTo(DetailScreenRoute(id = item.id))
 }
 
-private fun TodoItem.toTodoItemUi(): HomeUiState.TodoItem = HomeUiState.TodoItem(
+private fun TodoItem.toTodoItemUi(): TodoItemUi = TodoItemUi(
   id = id.value,
   text = text.value,
   isDone = isDone,

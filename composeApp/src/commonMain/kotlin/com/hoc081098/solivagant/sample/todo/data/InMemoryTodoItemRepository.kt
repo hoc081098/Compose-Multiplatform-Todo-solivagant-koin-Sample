@@ -25,7 +25,7 @@ internal class InMemoryTodoItemRepository : TodoItemRepository {
     .let(TodoItem::Id)
 
   private suspend inline fun fakeTimerDelay() = delay(200.milliseconds)
-  private val fakeTimerFlow = timer(Unit, 2.seconds).ignoreElements()
+  private val fakeTimerFlow = timer(Unit, 1.5.seconds).ignoreElements()
 
   private val itemsStateFlow = MutableStateFlow(
     listOf(

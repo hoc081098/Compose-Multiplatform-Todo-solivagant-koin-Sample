@@ -41,7 +41,7 @@ import com.hoc081098.kmp.viewmodel.koin.compose.koinKmpViewModel
 import com.hoc081098.solivagant.lifecycle.compose.collectAsStateWithLifecycle
 import com.hoc081098.solivagant.sample.todo.features.MARGIN_SCROLLBAR
 import com.hoc081098.solivagant.sample.todo.features.VerticalScrollbar
-import com.hoc081098.solivagant.sample.todo.features.home.HomeUiState.TodoItem
+import com.hoc081098.solivagant.sample.todo.features.home.HomeUiState.TodoItemUi
 import com.hoc081098.solivagant.sample.todo.features.rememberScrollbarAdapter
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -143,10 +143,10 @@ internal fun HomeScreen(
 
 @Composable
 private fun Item(
-  item: TodoItem,
-  onClicked: (TodoItem) -> Unit,
-  onToggle: (TodoItem) -> Unit,
-  onRemove: (TodoItem) -> Unit,
+  item: TodoItemUi,
+  onClicked: (TodoItemUi) -> Unit,
+  onToggle: (TodoItemUi) -> Unit,
+  onRemove: (TodoItemUi) -> Unit,
   modifier: Modifier = Modifier,
 ) {
   Row(
