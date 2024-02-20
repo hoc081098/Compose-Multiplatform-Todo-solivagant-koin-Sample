@@ -9,11 +9,13 @@ import com.hoc081098.solivagant.navigation.requireRoute
 import com.hoc081098.solivagant.sample.todo.domain.TodoItem
 import com.hoc081098.solivagant.sample.todo.features.detail.DetailUiState.TodoItemUi
 import com.hoc081098.solivagant.sample.todo.features.detail.domain.ObserveTodoItemById
+import com.hoc081098.solivagant.sample.todo.features.detail.domain.ToggleItemById
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 
 @Immutable
 internal sealed interface DetailUiState {
@@ -31,6 +33,7 @@ internal sealed interface DetailUiState {
 
 internal class DetailViewModel(
   private val navigator: NavEventNavigator,
+  private val toggleItemById: ToggleItemById,
   observeTodoItemById: ObserveTodoItemById,
   savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
@@ -58,6 +61,10 @@ internal class DetailViewModel(
       )
 
   internal fun navigateBack() = navigator.navigateBack()
+
+  internal fun toggle(item: TodoItemUi) {
+    viewModelScope.launch { toggleItemById(TodoItem.Id(item.id)) }
+  }
 }
 
 private fun TodoItem.toTodoItemUi(): TodoItemUi = TodoItemUi(

@@ -16,6 +16,7 @@ import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -61,14 +62,16 @@ internal fun DetailScreen(
       )
     },
     floatingActionButton = {
-      FloatingActionButton(
-        onClick = {},
-      ) {
-        Icon(
-          imageVector = Icons.Default.Edit,
-          contentDescription = null,
-        )
-      }
+      uiState
+        .takeIf { it is DetailUiState.Content && it.item != null }
+        ?.let {
+          FloatingActionButton(onClick = {}) {
+            Icon(
+              imageVector = Icons.Default.Edit,
+              contentDescription = null,
+            )
+          }
+        }
     },
   ) { innerPadding ->
     Box(
@@ -82,6 +85,7 @@ internal fun DetailScreen(
           ItemContent(
             item = s.item,
             modifier = Modifier.fillMaxWidth(),
+            onToggle = viewModel::toggle,
           )
         }
 
@@ -122,6 +126,7 @@ internal fun DetailScreen(
 @Composable
 private fun ItemContent(
   item: TodoItemUi?,
+  onToggle: (TodoItemUi) -> Unit,
   modifier: Modifier = Modifier,
 ) {
   Card(
@@ -138,14 +143,16 @@ private fun ItemContent(
         headlineContent = {
           Text(
             text = item?.text ?: "Not found",
-            style = MaterialTheme.typography.titleLarge,
+            style = MaterialTheme.typography.titleMedium,
           )
         },
         trailingContent = {
-          Text(
-            text = item?.isDone.toString(),
-            style = MaterialTheme.typography.titleLarge,
-          )
+          item?.let {
+            Checkbox(
+              checked = item.isDone,
+              onCheckedChange = { onToggle(item) },
+            )
+          }
         },
       )
     }
