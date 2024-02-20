@@ -1,7 +1,6 @@
 package com.hoc081098.solivagant.sample.todo.features.home
 
 import androidx.compose.runtime.Immutable
-import com.hoc081098.flowext.startWith
 import com.hoc081098.kmp.viewmodel.ViewModel
 import com.hoc081098.solivagant.navigation.NavEventNavigator
 import com.hoc081098.solivagant.sample.todo.domain.TodoItem
@@ -41,14 +40,13 @@ internal class HomeViewModel(
 ) : ViewModel() {
   internal val uiStateFlow: StateFlow<HomeUiState> =
     observeAllTodoItems()
-      .map { items ->
+      .map<_, HomeUiState> { items ->
         HomeUiState.Content(
           items = items
             .map { it.toTodoItemUi() }
             .toImmutableList(),
         )
       }
-      .startWith(HomeUiState.Loading)
       .catch {
         emit(
           HomeUiState.Error(

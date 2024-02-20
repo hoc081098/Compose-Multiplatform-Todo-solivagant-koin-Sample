@@ -23,10 +23,10 @@ internal actual fun rememberScrollbarAdapter(scrollState: LazyListState): Scroll
 @Composable
 internal actual fun VerticalScrollbar(
   modifier: Modifier,
-  adapter: ScrollbarAdapter
+  adapter: ScrollbarAdapter,
 ) {
   androidx.compose.foundation.VerticalScrollbar(
     modifier = modifier,
-    adapter = adapter
+    adapter = adapter,
   )
 }

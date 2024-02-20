@@ -24,7 +24,7 @@ private val AllDestinations: ImmutableSet<NavDestination> = persistentSetOf(
 )
 
 @Composable
-fun App(
+fun TodoApp(
   modifier: Modifier = Modifier,
   navigator: NavEventNavigator = koinInject(),
 ) {

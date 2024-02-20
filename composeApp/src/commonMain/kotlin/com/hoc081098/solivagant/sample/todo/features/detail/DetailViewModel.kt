@@ -1,7 +1,6 @@
 package com.hoc081098.solivagant.sample.todo.features.detail
 
 import androidx.compose.runtime.Immutable
-import com.hoc081098.flowext.startWith
 import com.hoc081098.kmp.viewmodel.SavedStateHandle
 import com.hoc081098.kmp.viewmodel.ViewModel
 import com.hoc081098.solivagant.navigation.NavEventNavigator
@@ -41,12 +40,11 @@ internal class DetailViewModel(
 
   internal val uiStateFlow: StateFlow<DetailUiState> =
     observeTodoItemById(TodoItem.Id(route.id))
-      .map { item ->
+      .map<_, DetailUiState> { item ->
         DetailUiState.Content(
           item = item?.toTodoItemUi(),
         )
       }
-      .startWith(DetailUiState.Loading)
       .catch {
         emit(
           DetailUiState.Error(

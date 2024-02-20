@@ -32,6 +32,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.hoc081098.kmp.viewmodel.koin.compose.koinKmpViewModel
@@ -144,6 +145,7 @@ private fun ItemContent(
           Text(
             text = item?.text ?: "Not found",
             style = MaterialTheme.typography.titleMedium,
+            textDecoration = if (item?.isDone == true) TextDecoration.LineThrough else null,
           )
         },
         trailingContent = {
