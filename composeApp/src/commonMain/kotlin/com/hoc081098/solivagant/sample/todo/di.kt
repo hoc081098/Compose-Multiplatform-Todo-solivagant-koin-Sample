@@ -5,6 +5,7 @@ import com.hoc081098.solivagant.sample.todo.data.DataModule
 import com.hoc081098.solivagant.sample.todo.features.detail.DetailModule
 import com.hoc081098.solivagant.sample.todo.features.home.HomeModule
 import org.koin.core.context.startKoin
+import org.koin.core.module.KoinApplicationDslMarker
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
@@ -17,6 +18,7 @@ private val CommonModule = module {
   includes(DetailModule)
 }
 
+@KoinApplicationDslMarker
 fun startKoinCommon(appDeclaration: KoinAppDeclaration = {}) {
   startKoin {
     appDeclaration()
