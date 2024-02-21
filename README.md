@@ -4,6 +4,7 @@
 [![Kotlin](https://img.shields.io/badge/kotlin-1.9.22-purple.svg?logo=kotlin)](http://kotlinlang.org)
 
 This repo is a template for getting started with Compose Multiplatform and Kotlin Multiplatform targeting Android, iOS, Web and Desktop.
+Compose Multiplatform Navigation and Kotlin Multiplatform ViewModel sample. [solivagant](https://github.com/hoc081098/solivagant) and [kmp-viewmodel](https://github.com/hoc081098/kmp-viewmodel) sample
 
 **[Compose Multiplatform](https://github.com/JetBrains/compose-multiplatform)** sample with
   - https://github.com/hoc081098/kmp-viewmodel: Kotlin Multiplatform ViewModel, SavedStateHandle 🌸
