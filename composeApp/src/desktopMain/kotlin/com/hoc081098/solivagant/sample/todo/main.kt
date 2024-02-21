@@ -36,7 +36,7 @@ fun main() {
 
     Window(
       onCloseRequest = ::exitApplication,
-      title = "KotlinProject",
+      title = "Compose-Multiplatform-Todo-solivagant-Sample",
       state = windowState,
     ) {
       CompositionLocalProvider(
