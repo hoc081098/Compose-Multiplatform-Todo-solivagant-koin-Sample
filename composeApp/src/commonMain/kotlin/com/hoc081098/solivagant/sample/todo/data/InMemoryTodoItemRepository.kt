@@ -51,7 +51,7 @@ internal class InMemoryTodoItemRepository : TodoItemRepository {
       TodoItem(
         id = generateId(),
         text = TodoItem.Text
-          .of(value = "solivagant: ViewModel, SavedStateHandle, Lifecycle, Multi-Backstacks, Transitions, Back-press handling, and more...")
+          .of(value = "solivagant supports ViewModel, SavedStateHandle, Lifecycle, Multi-Backstacks, Transitions, Back-press handling, and more...")
           .getOrThrow(),
         isDone = false,
       ),
