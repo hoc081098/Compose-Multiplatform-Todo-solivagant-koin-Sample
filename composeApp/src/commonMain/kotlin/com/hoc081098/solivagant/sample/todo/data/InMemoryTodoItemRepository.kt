@@ -1,9 +1,7 @@
 package com.hoc081098.solivagant.sample.todo.data
 
-import com.hoc081098.flowext.ignoreElements
-import com.hoc081098.flowext.plus
+import com.hoc081098.flowext.defer
 import com.hoc081098.flowext.select
-import com.hoc081098.flowext.timer
 import com.hoc081098.solivagant.sample.todo.domain.TodoItem
 import com.hoc081098.solivagant.sample.todo.domain.TodoItemRepository
 import kotlin.time.Duration.Companion.milliseconds
@@ -20,13 +18,17 @@ import kotlinx.coroutines.sync.withLock
 
 @OptIn(InternalCoroutinesApi::class)
 internal class InMemoryTodoItemRepository : TodoItemRepository {
+  //region Id generator
   private val idLock = SynchronizedObject()
   private var currentId = 0L
   private fun generateId() = synchronized(idLock) { currentId++ }
     .toString()
     .let(TodoItem::Id)
+  //endregion
 
   private val mutatorMutex = Mutex()
+  private var observed = false
+  private var lastObservedId = TodoItem.Id("")
 
   private suspend inline fun fakeTimerDelay() = delay(200.milliseconds)
 
@@ -56,11 +58,25 @@ internal class InMemoryTodoItemRepository : TodoItemRepository {
     ),
   )
 
-  override fun observeAll() = timer(Unit, 1.5.seconds).ignoreElements() + itemsStateFlow
+  override fun observeAll() = defer {
+    mutatorMutex.withLock {
+      if (observed) {
+        observed = false
+        delay(1.5.seconds)
+      }
+    }
+    itemsStateFlow
+  }
 
-  override fun observeById(id: TodoItem.Id) =
-    timer(Unit, 300.milliseconds).ignoreElements() +
-        itemsStateFlow.select { items -> items.find { it.id == id } }
+  override fun observeById(id: TodoItem.Id) = defer {
+    mutatorMutex.withLock {
+      if (lastObservedId != id) {
+        lastObservedId = id
+        delay(300.milliseconds)
+      }
+    }
+    itemsStateFlow.select { items -> items.find { it.id == id } }
+  }
 
   override suspend fun add(text: TodoItem.Text, isDone: Boolean) = mutatorMutex.withLock {
     fakeTimerDelay()
