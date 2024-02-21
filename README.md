@@ -4,9 +4,10 @@ This is a Kotlin Multiplatform project targeting Android, iOS, Web, Desktop.
 
 ### Desktop
 
-|                       |                       |                       |                       |
-|:---------------------:|:---------------------:|:---------------------:|:---------------------:|
-| ![](images/img_0.png) | ![](images/img_1.png) | ![](images/img_2.png) | ![](images/img_3.png) |
+|                       |                       |
+|:---------------------:|:---------------------:|
+| ![](images/img_0.png) | ![](images/img_1.png) |
+| ![](images/img_2.png) | ![](images/img_3.png) |
 
 ### Android
 
