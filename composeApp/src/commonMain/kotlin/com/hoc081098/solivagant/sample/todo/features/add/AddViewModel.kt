@@ -1,27 +1,32 @@
 package com.hoc081098.solivagant.sample.todo.features.add
 
 import androidx.compose.runtime.Immutable
+import com.hoc081098.kmp.viewmodel.SavedStateHandle
 import com.hoc081098.kmp.viewmodel.ViewModel
+import com.hoc081098.kmp.viewmodel.parcelable.Parcelable
+import com.hoc081098.kmp.viewmodel.parcelable.Parcelize
+import com.hoc081098.kmp.viewmodel.safe.NonNullSavedStateHandleKey
+import com.hoc081098.kmp.viewmodel.safe.parcelable
+import com.hoc081098.kmp.viewmodel.safe.safe
 import com.hoc081098.solivagant.navigation.NavEventNavigator
 import com.hoc081098.solivagant.sample.todo.domain.TodoItem
 import com.hoc081098.solivagant.sample.todo.features.add.domain.AddTodoItem
 import com.hoc081098.solivagant.sample.todo.features.utils.HasSingleEventFlow
 import com.hoc081098.solivagant.sample.todo.features.utils.SingleEventChannel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 @Immutable
-internal sealed interface AddUiState {
+internal sealed interface AddUiState : Parcelable {
+  @Parcelize
   data class Content(
     val text: String,
     val isDone: Boolean,
     val isIdle: Boolean,
   ) : AddUiState
 
+  @Parcelize
   data object Complete : AddUiState
 }
 
@@ -34,23 +39,18 @@ internal class AddViewModel(
   private val addTodoItem: AddTodoItem,
   private val navigator: NavEventNavigator,
   private val singleEventChannel: SingleEventChannel<AddSingleEvent>,
+  private val savedStateHandle: SavedStateHandle,
 ) : ViewModel(),
   HasSingleEventFlow<AddSingleEvent> by singleEventChannel {
-  private val _uiStateFlow = MutableStateFlow<AddUiState>(
-    AddUiState.Content(
-      text = "",
-      isDone = false,
-      isIdle = true,
-    ),
-  )
-
-  internal val uiStateFlow: StateFlow<AddUiState> = _uiStateFlow.asStateFlow()
+  internal val uiStateFlow: StateFlow<AddUiState> = savedStateHandle.safe.getStateFlow(UiStateKey)
   internal val backPressesFlow: Flow<Unit> = navigator.backPresses()
 
   internal fun onTextChange(text: String) {
-    _uiStateFlow.update {
-      if (it is AddUiState.Content) {
-        it.copy(text = text, isIdle = false)
+    savedStateHandle.safe {
+      val state = it[UiStateKey]
+
+      it[UiStateKey] = if (state is AddUiState.Content) {
+        state.copy(text = text, isIdle = false)
       } else {
         AddUiState.Content(text = text, isDone = false, isIdle = false)
       }
@@ -58,9 +58,11 @@ internal class AddViewModel(
   }
 
   internal fun onDoneChange(isDone: Boolean) {
-    _uiStateFlow.update {
-      if (it is AddUiState.Content) {
-        it.copy(isDone = isDone, isIdle = false)
+    savedStateHandle.safe {
+      val state = it[UiStateKey]
+
+      it[UiStateKey] = if (state is AddUiState.Content) {
+        state.copy(isDone = isDone, isIdle = false)
       } else {
         AddUiState.Content(text = "", isDone = isDone, isIdle = false)
       }
@@ -69,7 +71,7 @@ internal class AddViewModel(
 
   internal fun save() {
     viewModelScope.launch {
-      val content = _uiStateFlow.value as? AddUiState.Content
+      val content = savedStateHandle.safe[UiStateKey] as? AddUiState.Content
         ?: return@launch
 
       TodoItem.Text.of(content.text)
@@ -81,8 +83,8 @@ internal class AddViewModel(
         }
         .fold(
           onSuccess = {
-            _uiStateFlow.value = AddUiState.Complete
             navigator.navigateBack()
+            savedStateHandle.safe[UiStateKey] = AddUiState.Complete
           },
           onFailure = {
             // TODO: handle error
@@ -94,7 +96,7 @@ internal class AddViewModel(
   internal fun navigateBack() = navigator.navigateBack()
 
   internal fun confirmBack() {
-    when (val s = _uiStateFlow.value) {
+    when (val s = savedStateHandle.safe[UiStateKey]) {
       is AddUiState.Content ->
         if (s.isIdle) {
           navigator.navigateBack()
@@ -105,5 +107,16 @@ internal class AddViewModel(
       else ->
         navigator.navigateBack()
     }
+  }
+
+  private companion object {
+    private val UiStateKey = NonNullSavedStateHandleKey.parcelable<AddUiState>(
+      key = "com.hoc081098.solivagant.sample.todo.features.add.state",
+      defaultValue = AddUiState.Content(
+        text = "",
+        isDone = false,
+        isIdle = true,
+      ),
+    )
   }
 }
