@@ -33,12 +33,6 @@
     },
     {
       matchPackagePatterns: [
-        "com.freeletics.gradle",
-      ],
-      groupName: "Freeletics Gradle Plugin"
-    },
-    {
-      matchPackagePatterns: [
         "org.jetbrains.kotlin",
         "com.google.devtools.ksp",
         "dev.zacsweers.kctfork",
