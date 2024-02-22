@@ -97,8 +97,8 @@ internal class EditViewModel(
         }
         .fold(
           onSuccess = {
-            _uiStateFlow.value = EditUiState.Complete
             navigator.navigateBack()
+            _uiStateFlow.value = EditUiState.Complete
           },
           onFailure = {
             // TODO: handle error
