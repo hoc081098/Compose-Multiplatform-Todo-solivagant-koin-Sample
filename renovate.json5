@@ -10,6 +10,8 @@
   platformCommit: true,
   assignAutomerge: true,
   reviewers: ["hoc081098"],
+  labels: ["dependencies"],
+  assignees: ["hoc081098"],
   rebaseWhen: "conflicted",
   prBodyTemplate: "{{{header}}}{{{table}}}{{{notes}}}{{{changelogs}}}{{{controls}}}{{{footer}}}",
   prBodyColumns: ["Package", "Change", "Age"],
