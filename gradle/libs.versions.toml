@@ -15,7 +15,7 @@ compose-plugin = "1.6.0"
 junit = "4.13.2"
 kotlin = "1.9.22"
 
-kmp-viewmodel = "0.7.0"
+kmp-viewmodel = "0.7.1"
 solivagant = "0.1.1"
 flow-ext = "0.8.0"
 
