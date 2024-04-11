@@ -19,7 +19,7 @@ kmp-viewmodel = "0.7.1"
 solivagant = "0.3.0"
 flow-ext = "0.8.0"
 
-koin-core = "3.5.4"
+koin-core = "3.5.5"
 koin-compose = "1.1.4"
 
 kotlinx-collections-immutable = "0.3.7"
