@@ -16,7 +16,7 @@ junit = "4.13.2"
 kotlin = "1.9.24"
 
 kmp-viewmodel = "0.8.0"
-solivagant = "0.3.0"
+solivagant = "0.4.0"
 flow-ext = "0.8.1"
 
 koin-core = "3.5.6"
