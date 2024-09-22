@@ -17,7 +17,7 @@ kotlin = "1.9.24"
 
 kmp-viewmodel = "0.8.0"
 solivagant = "0.5.0"
-flow-ext = "0.8.1"
+flow-ext = "1.0.0"
 
 koin-core = "4.0.0"
 koin-compose = "4.0.0"
